@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J.D.B.U.T.I.Y.A AI</title>
+<title>J.D.B.U.T.I.Y.A. AI</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -20,7 +20,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 15px 20px;
     border-bottom: 1px solid rgba(0, 243, 255, 0.3);
   }
   .logo {
@@ -31,63 +31,26 @@
   }
   .hero {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 30px 20px;
-  }
-  .status-badge {
-    display: inline-block;
-    padding: 5px 15px;
-    border: 1px solid #00f3ff;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    background: rgba(0, 243, 255, 0.1);
-  }
-  h1 {
-    font-size: 2.2rem;
-    margin-bottom: 15px;
-    text-shadow: 0 0 15px rgba(0, 243, 255, 0.7);
-  }
-  p {
-    font-size: 1.1rem;
-    color: #a0d8ef;
-    margin-bottom: 25px;
-    line-height: 1.5;
-    max-width: 500px;
-  }
-  .btn-jarvis {
-    padding: 15px 30px;
-    background: rgba(0, 243, 255, 0.1);
-    color: #00f3ff;
-    border: 2px solid #00f3ff;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    letter-spacing: 2px;
-    box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-  }
-  .btn-jarvis:active {
-    background: #00f3ff;
-    color: #050a14;
+    padding: 20px;
+    flex-grow: 1;
+    justify-content: center;
   }
   .jarvis-core {
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 180px;
+    height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
   }
-  .ring {
-    position: absolute;
-    border-radius: 50%;
-  }
+  .ring { position: absolute; border-radius: 50%; }
   .ring-1 {
-    width: 210px;
-    height: 210px;
+    width: 170px; height: 170px;
     border: 3px solid transparent;
     border-top: 3px solid #00f3ff;
     border-bottom: 3px solid #00f3ff;
@@ -95,64 +58,130 @@
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
   }
   .ring-2 {
-    width: 165px;
-    height: 165px;
+    width: 135px; height: 135px;
     border: 3px dashed #00f3ff;
     animation: spin-rev 4s linear infinite;
   }
   .core-center {
-    width: 90px;
-    height: 90px;
+    width: 75px; height: 75px;
     background: radial-gradient(circle, #ffffff, #00f3ff, #0051ff);
     border-radius: 50%;
-    box-shadow: 0 0 35px #00f3ff;
+    box-shadow: 0 0 30px #00f3ff;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #050a14;
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
   }
   @keyframes spin { 100% { transform: rotate(360deg); } }
   @keyframes spin-rev { 100% { transform: rotate(-360deg); } }
+
+  .chat-box {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(0, 243, 255, 0.05);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  #jarvis-msg {
+    font-size: 1rem;
+    color: #e0f7fa;
+    min-height: 45px;
+    margin-bottom: 15px;
+  }
+  .input-group {
+    display: flex;
+    gap: 8px;
+  }
+  input {
+    flex-grow: 1;
+    padding: 10px;
+    background: #02050a;
+    border: 1px solid #00f3ff;
+    color: #00f3ff;
+    border-radius: 4px;
+    outline: none;
+  }
+  .btn-jarvis {
+    padding: 10px 15px;
+    background: #00f3ff;
+    color: #050a14;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .quick-cmds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .cmd-chip {
+    padding: 6px 12px;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.4);
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 20px;
+  }
   footer {
     text-align: center;
-    padding: 15px;
+    padding: 12px;
     border-top: 1px solid rgba(0, 243, 255, 0.3);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #5bc0de;
-    line-height: 1.6;
   }
 </style>
 </head>
 <body>
   <header>
     <div class="logo">J.A.R.V.I.S.</div>
-    <div style="font-size: 0.8rem;">ONLINE</div>
+    <div id="battery-status" style="font-size: 0.8rem;">SYSTEM READY</div>
   </header>
 
   <section class="hero">
-    <div>
-      <div class="status-badge">● SYSTEM ONLINE | V 4.02</div>
-      <h1>NEXT-GEN AI ASSISTANT</h1>
-      <p id="jarvis-msg">Welcome back, Sir. All neural networks and security protocols are fully operational. Ready for your command.</p>
-      <button class="btn-jarvis" onclick="activateJarvis()">INITIALIZE PROTOCOL</button>
-    </div>
-
-    <div class="jarvis-core">
+    <div class="jarvis-core" onclick="startVoice()">
       <div class="ring ring-1"></div>
       <div class="ring ring-2"></div>
-      <div class="core-center">AI CORE</div>
+      <div class="core-center">TAP MIC</div>
+    </div>
+
+    <div class="chat-box">
+      <div id="jarvis-msg">System Online, Sir. Niche likhein ya button dabayein.</div>
+      <div class="input-group">
+        <input type="text" id="user-input" placeholder="Command likhein (jaise: open youtube)..." onkeypress="if(event.key==='Enter') processCommand()">
+        <button class="btn-jarvis" onclick="processCommand()">SEND</button>
+      </div>
+      
+      <div class="quick-cmds">
+        <div class="cmd-chip" onclick="runQuick('time')">Time Batao</div>
+        <div class="cmd-chip" onclick="runQuick('youtube')">Open YouTube</div>
+        <div class="cmd-chip" onclick="runQuick('google')">Open Google</div>
+        <div class="cmd-chip" onclick="runQuick('status')">System Status</div>
+      </div>
     </div>
   </section>
 
   <footer>
-    <div>CPU LOAD: 14% | MEMORY: OPTIMAL</div>
     <div id="clock">TIME: 00:00:00</div>
     <div>STARK INDUSTRIES INTERFACE</div>
   </footer>
 
   <script>
+    function speak(text) {
+      document.getElementById('jarvis-msg').innerText = text;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const speech = new SpeechSynthesisUtterance(text);
+        window.speechSynthesis.speak(speech);
+      }
+    }
+
     function updateClock() {
       const now = new Date();
       document.getElementById('clock').innerText = 'TIME: ' + now.toLocaleTimeString();
@@ -160,13 +189,64 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    function activateJarvis() {
-      const msg = document.getElementById('jarvis-msg');
-      msg.innerText = "Scanning environment... Protocols initiated. How may I assist you today, Sir?";
-      if ('speechSynthesis' in window) {
-        const speech = new SpeechSynthesisUtterance("Protocols initiated. How may I assist you today, Sir?");
-        window.speechSynthesis.speak(speech);
+    // Battery Check
+    if ('getBattery' in navigator) {
+      navigator.getBattery().then(battery => {
+        const updateBat = () => {
+          document.getElementById('battery-status').innerText = 'BATTERY: ' + Math.round(battery.level * 100) + '%';
+        };
+        updateBat();
+        battery.addEventListener('levelchange', updateBat);
+      });
+    }
+
+    function runQuick(cmd) {
+      document.getElementById('user-input').value = cmd;
+      processCommand();
+    }
+
+    function processCommand() {
+      const input = document.getElementById('user-input');
+      const cmd = input.value.toLowerCase().trim();
+      input.value = '';
+
+      if (!cmd) return;
+
+      if (cmd.includes('hello') || cmd.includes('hi')) {
+        speak("Hello Sir! Main aapki kya madad kar sakta hoon?");
+      } else if (cmd.includes('time')) {
+        speak("Abhi samay hua hai " + new Date().toLocaleTimeString());
+      } else if (cmd.includes('youtube')) {
+        speak("YouTube khol raha hoon, Sir.");
+        setTimeout(() => window.open('https://youtube.com', '_blank'), 1000);
+      } else if (cmd.includes('google')) {
+        speak("Google khol raha hoon, Sir.");
+        setTimeout(() => window.open('https://google.com', '_blank'), 1000);
+      } else if (cmd.includes('status')) {
+        speak("Saare systems normal hain. Internet connection active hai.");
+      } else {
+        speak("Google par search kar raha hoon: " + cmd);
+        setTimeout(() => window.open('https://google.com/search?q=' + encodeURIComponent(cmd), '_blank'), 1000);
       }
+    }
+
+    // Voice Recognition
+    function startVoice() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        speak("Aapke browser mein voice mic support nahi hai, kripya niche type karein.");
+        return;
+      }
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-IN';
+      document.getElementById('jarvis-msg').innerText = "Listening... Boliye Sir...";
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('user-input').value = transcript;
+        processCommand();
+      };
     }
   </script>
 </body>
