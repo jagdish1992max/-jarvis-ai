@@ -14,7 +14,7 @@
   .dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; }
   
   .box { background: rgba(255,255,255,0.05); border: 1px solid var(--c); border-radius: 10px; padding: 15px; max-width: 480px; margin: 0 auto 15px; }
-  #msg { color: #fff; font-size: 1rem; min-height: 40px; margin-bottom: 12px; }
+  #msg { color: #fff; font-size: 1rem; min-height: 45px; margin-bottom: 12px; line-height: 1.4; }
   
   .row { display: flex; gap: 6px; margin-bottom: 10px; }
   input { flex: 1; padding: 10px; background: #000; border: 1px solid var(--c); color: #fff; border-radius: 5px; font-size: 0.9rem; }
@@ -40,12 +40,11 @@
     </div>
   </header>
 
-  <!-- Direct Open Setup Box (No Button Bug) -->
   <details open>
     <summary>⚙️ SETTINGS (Naam & API Key Yahan Dalein)</summary>
     <div class="setup-body">
-      <input type="text" id="uname" placeholder="Apna naam likhein (jaise: Jagdish)">
-      <input type="text" id="ukey" placeholder="Gemini API Key paste karein (AIzaSy...)">
+      <input type="text" id="uname" placeholder="Apna naam likhein (jaise: JD Butiya)">
+      <input type="text" id="ukey" placeholder="Gemini (AIzaSy...) ya OpenRouter (sk-or-...) Key">
       <button onclick="saveData()" style="width:100%">SAVE SETTINGS</button>
     </div>
   </details>
@@ -95,7 +94,8 @@
 
     function saveData() {
       let n = document.getElementById('uname').value.trim() || 'Sir';
-      let k = document.getElementById('ukey').value.trim();
+      let k = document.getElementById('ukey').value.replace(/[`'"]/g, '').trim();
+      document.getElementById('ukey').value = k;
       localStorage.setItem('j_name', n);
       localStorage.setItem('j_key', k);
       say('Settings save ho gayi hain, ' + n + '!');
@@ -111,7 +111,7 @@
       let raw = input.value.trim();
       let c = raw.toLowerCase();
       let name = localStorage.getItem('j_name') || 'Sir';
-      let key = localStorage.getItem('j_key') || '';
+      let key = (localStorage.getItem('j_key') || '').replace(/[`'"]/g, '').trim();
       input.value = '';
       if (!c) return;
 
@@ -123,7 +123,7 @@
         window.location.href = 'https://youtube.com/results?search_query=' + encodeURIComponent(song);
       } else if (/^[0-9+\-*/().\s]+$/.test(c)) {
         try { say('Jawab hai: ' + eval(c)); } catch(e) { say('Galat hisab hai.'); }
-      } else if (key) {
+      } else if (key.startsWith('AIza')) {
         document.getElementById('msg').innerText = 'Soch raha hoon...';
         try {
           let r = await fetch('https://googleapis.com' + key, {
@@ -132,10 +132,33 @@
             body: JSON.stringify({ contents: [{ parts: [{ text: 'Short Hinglish reply to ' + name + ': ' + raw }] }] })
           });
           let d = await r.json();
-          say(d.candidates[0].content.parts[0].text.replace(/\*/g, ''));
+          if (d.error) {
+            say('Gemini Error: ' + d.error.message);
+          } else {
+            say(d.candidates[0].content.parts[0].text.replace(/\*/g, ''));
+          }
         } catch(e) {
-          say('API Key galat hai ya network error hai.');
+          say('Internet error aa raha hai.');
         }
+      } else if (key.startsWith('sk-or-')) {
+        document.getElementById('msg').innerText = 'Soch raha hoon...';
+        try {
+          let r = await fetch('https://openrouter.ai', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+            body: JSON.stringify({ model: 'google/gemini-2.0-flash-exp:free', messages: [{ role: 'user', content: 'Short Hinglish reply to ' + name + ': ' + raw }] })
+          });
+          let d = await r.json();
+          if (d.error) {
+            say('OpenRouter Error: ' + d.error.message);
+          } else {
+            say(d.choices[0].message.content.replace(/\*/g, ''));
+          }
+        } catch(e) {
+          say('Internet error aa raha hai.');
+        }
+      } else if (key !== '') {
+        say('Yeh galat API Key hai. Gemini Key "AIza" se ya OpenRouter Key "sk-or-" se shuru hoti hai.');
       } else {
         say('Google par search kar raha hoon: ' + raw);
         window.location.href = 'https://google.com' + encodeURIComponent(raw);
