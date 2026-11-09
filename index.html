@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. AI Interface</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #050a14;
+            color: #00f3ff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-image: 
+                radial-gradient(circle at center, rgba(0, 243, 255, 0.1) 0%, transparent 70%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        /* Header Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px #00f3ff;
+        }
+
+        nav a {
+            color: #00f3ff;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #00f3ff;
+        }
+
+        /* Main Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 50px;
+            flex-grow: 1;
+        }
+
+        .hero-text {
+            max-width: 550px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border: 1px solid #00f3ff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #a0d8ef;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-jarvis {
+            padding: 15px 35px;
+            background: transparent;
+            color: #00f3ff;
+            border: 2px solid #00f3ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        .btn-jarvis:hover {
+            background: #00f3ff;
+            color: #050a14;
+            box-shadow: 0 0 30px #00f3ff;
+        }
+
+        /* Jarvis Core Animation */
+        .jarvis-core {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+        }
+
+        .ring-1 {
+            width: 300px;
+            height: 300px;
+            border-top: 3px solid #00f3ff;
+            border-bottom: 3px solid #00f3ff;
+            animation: spin 8s linear infinite;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+
+        .ring-2 {
+            width: 240px;
+            height: 240px;
+            border-left: 3px dashed #00f3ff;
+            border-right: 3px dashed #00f3ff;
+            animation: spin-reverse 6s linear infinite;
+        }
+
+        .ring-3 {
+            width: 180px;
+            height: 180px;
+            border: 2px solid rgba(0, 243, 255, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .core-center {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffffff, #00f3ff, #0051ff);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #00f3ff, 0 0 80px #00f3ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: #050a14;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            100% { transform: rotate(-360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        /* Footer System Bar */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 50px;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            font-size: 0.9rem;
+            color: #5bc0de;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding: 20px; }
+            .jarvis-core { width: 220px; height: 220px; margin-bottom: 30px; }
+            .ring-1 { width: 200px; height: 200px; }
+            .ring-2 { width: 160px; height: 160px; }
+            .ring-3 { width: 120px; height: 120px; }
+            h1 { font-size: 2.2rem; }
+            header { padding: 15px 20px; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">J.A.R.V.I.S.</div>
+        <nav>
+            <a href="#">SYSTEM</a>
+            <a href="#">PROTOCOLS</a>
+            <a href="#">DIAGNOSTICS</a>
+            <a href="#">ACCESS</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-text">
+            <div class="status-badge">● SYSTEM ONLINE | V 4.02</div>
+            <h1>NEXT-GEN AI ASSISTANT</h1>
+            <p id="jarvis-msg">Welcome back, Sir. All neural networks and security protocols are fully operational. Ready for your command.</p>
+            <button class="btn-jarvis" onclick="activateJarvis()">INITIALIZE PROTOCOL</button>
+        </div>
+
+        <div class="jarvis-core">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="core-center">AI CORE</div>
+        </div>
+    </section>
+
+    <footer>
+        <div>CPU LOAD: 14% | MEMORY: OPTIMAL</div>
+        <div id="clock">TIME: 00:00:00</div>
+        <div>STARK INDUSTRIES INTERFACE</div>
+    </footer>
+
+    <script>
+        // Live Clock Update
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = 'TIME: ' + now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Interactive Voice & Text Response
+        function activateJarvis() {
+            const msg = document.getElementById('jarvis-msg');
+            msg.innerText = "Scanning environment... Protocols initiated. How may I assist you today, Sir?";
+            msg.style.color = "#00f3ff";
+
+            // Browser Voice (Jarvis style speaking)
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance("Protocols initiated. How may I assist you today, Sir?");
+                speech.pitch = 0.9;
+                speech.rate = 1;
+                window.speechSynthesis.speak(speech);
+            }
+        }
+    </script>
+
+</body>
+</html>
