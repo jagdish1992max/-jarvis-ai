@@ -29,6 +29,8 @@
     align-items: center;
     padding: 12px 18px;
     border-bottom: 1px solid var(--theme-glow);
+    position: relative;
+    z-index: 10;
   }
   .logo {
     font-size: 1.3rem;
@@ -38,25 +40,54 @@
   }
   .top-controls {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     align-items: center;
   }
   .theme-dot {
-    width: 20px; height: 20px;
+    width: 22px; height: 22px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid #fff;
   }
   .api-btn {
-    background: var(--theme-bg);
-    color: var(--theme-color);
-    border: 1px solid var(--theme-color);
-    padding: 5px 10px;
-    font-size: 0.75rem;
+    background: var(--theme-color);
+    color: #050a14;
+    border: none;
+    padding: 6px 12px;
+    font-size: 0.8rem;
     font-weight: bold;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
   }
+
+  /* On-Screen Settings Panel */
+  #setup-panel {
+    display: none;
+    background: #081224;
+    border: 2px solid var(--theme-color);
+    padding: 15px;
+    margin: 10px auto;
+    width: 92%;
+    max-width: 480px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px var(--theme-glow);
+    text-align: left;
+  }
+  #setup-panel label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    color: #fff;
+  }
+  #setup-panel input {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .setup-actions {
+    display: flex;
+    gap: 10px;
+  }
+
   .hero {
     display: flex;
     flex-direction: column;
@@ -67,8 +98,8 @@
   }
   .jarvis-core {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 135px;
+    height: 135px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,7 +108,7 @@
   }
   .ring { position: absolute; border-radius: 50%; pointer-events: none; }
   .ring-1 {
-    width: 135px; height: 135px;
+    width: 130px; height: 130px;
     border: 3px solid transparent;
     border-top: 3px solid var(--theme-color);
     border-bottom: 3px solid var(--theme-color);
@@ -85,12 +116,12 @@
     box-shadow: 0 0 15px var(--theme-glow);
   }
   .ring-2 {
-    width: 105px; height: 105px;
+    width: 100px; height: 100px;
     border: 2px dashed var(--theme-color);
     animation: spin-rev 4s linear infinite;
   }
   .core-center {
-    width: 65px; height: 65px;
+    width: 62px; height: 62px;
     background: radial-gradient(circle, #ffffff, var(--theme-color), #001f3f);
     border-radius: 50%;
     box-shadow: 0 0 25px var(--theme-color);
@@ -158,7 +189,7 @@
     justify-content: center;
   }
   .cmd-chip {
-    padding: 6px 12px;
+    padding: 7px 12px;
     background: var(--theme-bg);
     border: 1px solid var(--theme-glow);
     color: var(--theme-color);
@@ -186,7 +217,7 @@
   .notes-area li {
     display: flex;
     justify-content: space-between;
-    padding: 5px 0;
+    padding: 6px 0;
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   footer {
@@ -204,9 +235,23 @@
       <div class="theme-dot" style="background:#00f3ff;" onclick="setTheme('#00f3ff', 'rgba(0,243,255,0.12)', 'rgba(0,243,255,0.5)')"></div>
       <div class="theme-dot" style="background:#ff2a2a;" onclick="setTheme('#ff2a2a', 'rgba(255,42,42,0.12)', 'rgba(255,42,42,0.5)')"></div>
       <div class="theme-dot" style="background:#00ff66;" onclick="setTheme('#00ff66', 'rgba(0,255,102,0.12)', 'rgba(0,255,102,0.5)')"></div>
-      <button class="api-btn" onclick="setupUser()">⚙️ SETUP</button>
+      <button type="button" class="api-btn" onclick="toggleSetup()">⚙️ SETUP</button>
     </div>
   </header>
+
+  <!-- Inline Setup Panel (Works in All Browsers) -->
+  <div id="setup-panel">
+    <label>Aapka Naam (User Name):</label>
+    <input type="text" id="input-username" placeholder="Jaise: Boss ya aapka naam">
+    
+    <label>Gemini API Key (Free AI Chat ke liye):</label>
+    <input type="text" id="input-apikey" placeholder="AIzaSy... yahan paste karein">
+    
+    <div class="setup-actions">
+      <button type="button" class="btn-jarvis" onclick="saveSetup()">SAVE SETTINGS</button>
+      <button type="button" class="cmd-chip" onclick="toggleSetup()">CLOSE</button>
+    </div>
+  </div>
 
   <section class="hero">
     <div class="jarvis-core" onclick="startVoice()">
@@ -219,27 +264,27 @@
       <div id="jarvis-msg">System Online, Sir. Main aapki kya madad kar sakta hoon?</div>
       <div class="input-group">
         <input type="text" id="user-input" placeholder="Likhein: 25*10, play song, ya sawal..." onkeypress="if(event.key==='Enter') processCommand()">
-        <button class="btn-jarvis" onclick="processCommand()">SEND</button>
+        <button type="button" class="btn-jarvis" onclick="processCommand()">SEND</button>
       </div>
       
-      <div class="section-label">Social Media & Apps (Direct Open)</div>
+      <div class="section-label">Social Media & Apps</div>
       <div class="quick-cmds">
-        <a class="cmd-chip" href="https://instagram.com" target="_blank" onclick="speak('Instagram khol raha hoon, Sir.')">Instagram</a>
-        <a class="cmd-chip" href="https://whatsapp.com" target="_blank" onclick="speak('WhatsApp khol raha hoon, Sir.')">WhatsApp</a>
-        <a class="cmd-chip" href="https://youtube.com" target="_blank" onclick="speak('YouTube khol raha hoon, Sir.')">YouTube</a>
-        <a class="cmd-chip" href="https://facebook.com" target="_blank" onclick="speak('Facebook khol raha hoon, Sir.')">Facebook</a>
-        <a class="cmd-chip" href="https://x.com" target="_blank" onclick="speak('X khol raha hoon, Sir.')">X</a>
-        <a class="cmd-chip" href="https://telegram.org" target="_blank" onclick="speak('Telegram khol raha hoon, Sir.')">Telegram</a>
-        <a class="cmd-chip" href="https://snapchat.com" target="_blank" onclick="speak('Snapchat khol raha hoon, Sir.')">Snapchat</a>
-        <a class="cmd-chip" href="https://linkedin.com" target="_blank" onclick="speak('LinkedIn khol raha hoon, Sir.')">LinkedIn</a>
+        <a class="cmd-chip" href="https://instagram.com" target="_blank">Instagram</a>
+        <a class="cmd-chip" href="https://whatsapp.com" target="_blank">WhatsApp</a>
+        <a class="cmd-chip" href="https://youtube.com" target="_blank">YouTube</a>
+        <a class="cmd-chip" href="https://facebook.com" target="_blank">Facebook</a>
+        <a class="cmd-chip" href="https://x.com" target="_blank">X</a>
+        <a class="cmd-chip" href="https://telegram.org" target="_blank">Telegram</a>
+        <a class="cmd-chip" href="https://snapchat.com" target="_blank">Snapchat</a>
+        <a class="cmd-chip" href="https://linkedin.com" target="_blank">LinkedIn</a>
       </div>
 
       <div class="section-label">Smart Commands</div>
       <div class="quick-cmds">
-        <button class="cmd-chip" onclick="runQuick('time')">⏰ Time</button>
-        <a class="cmd-chip" href="https://google.com" target="_blank" onclick="speak('Mausam ki jankari khol raha hoon.')">🌦️ Weather</a>
-        <button class="cmd-chip" onclick="runQuick('play arijit singh songs')">🎵 Play Song</button>
-        <button class="cmd-chip" onclick="runQuick('note: call home at 7pm')">📝 Add Note</button>
+        <button type="button" class="cmd-chip" onclick="runQuick('time')">⏰ Time</button>
+        <a class="cmd-chip" href="https://google.com" target="_blank">🌦️ Weather</a>
+        <button type="button" class="cmd-chip" onclick="runQuick('play arijit singh songs')">🎵 Play Song</button>
+        <button type="button" class="cmd-chip" onclick="runQuick('note: call home at 7pm')">📝 Add Note</button>
       </div>
     </div>
 
@@ -260,6 +305,8 @@
 
     function init() {
       document.getElementById('jarvis-msg').innerText = `Welcome back, ${userName}. All systems operational.`;
+      document.getElementById('input-username').value = userName;
+      document.getElementById('input-apikey').value = apiKey;
       renderNotes();
     }
 
@@ -269,43 +316,17 @@
       document.documentElement.style.setProperty('--theme-glow', glow);
     }
 
-    function setupUser() {
-      const name = prompt("Apna naam likhein:", userName);
-      if (name && name.trim() !== "") {
-        userName = name.trim();
-        localStorage.setItem('jarvis_user', userName);
-      }
-      const key = prompt("Apni Gemini API Key paste karein (ya khali chhod dein):", apiKey);
-      if (key !== null) {
-        apiKey = key.trim();
-        localStorage.setItem('gemini_api_key', apiKey);
-      }
-      speak(`Settings saved, ${userName}.`);
-    }
-
-    function speak(text) {
-      document.getElementById('jarvis-msg').innerText = text;
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const speech = new SpeechSynthesisUtterance(text);
-        speech.lang = 'hi-IN';
-        window.speechSynthesis.speak(speech);
+    function toggleSetup() {
+      const panel = document.getElementById('setup-panel');
+      if (panel.style.display === 'block') {
+        panel.style.display = 'none';
+      } else {
+        panel.style.display = 'block';
       }
     }
 
-    function updateClock() {
-      document.getElementById('clock').innerText = 'TIME: ' + new Date().toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    if ('getBattery' in navigator) {
-      navigator.getBattery().then(b => {
-        const up = () => document.getElementById('battery-status').innerText = 'BATTERY: ' + Math.round(b.level * 100) + '%';
-        up(); b.addEventListener('levelchange', up);
-      });
-    }
-
-    function renderNotes() {
-      const list = document.getElementById('notes-list');
+    function saveSetup() {
+      const nameVal = document.getElementById('input-username').value.trim();
+      const keyVal = document.getElementById('input-apikey').value.trim();
+      if (nameVal) {
     
