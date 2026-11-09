@@ -8,7 +8,7 @@
 <style>
   :root {
     --theme-color: #00f3ff;
-    --theme-bg: rgba(0, 243, 255, 0.1);
+    --theme-bg: rgba(0, 243, 255, 0.12);
     --theme-glow: rgba(0, 243, 255, 0.5);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,7 +21,7 @@
     flex-direction: column;
     justify-content: space-between;
     background-image: radial-gradient(circle at center, var(--theme-bg) 0%, #050a14 80%);
-    transition: 0.4s;
+    transition: 0.3s;
   }
   header {
     display: flex;
@@ -42,7 +42,7 @@
     align-items: center;
   }
   .theme-dot {
-    width: 18px; height: 18px;
+    width: 20px; height: 20px;
     border-radius: 50%;
     cursor: pointer;
     border: 2px solid #fff;
@@ -51,8 +51,9 @@
     background: var(--theme-bg);
     color: var(--theme-color);
     border: 1px solid var(--theme-color);
-    padding: 4px 8px;
+    padding: 5px 10px;
     font-size: 0.75rem;
+    font-weight: bold;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -74,7 +75,7 @@
     margin-bottom: 15px;
     cursor: pointer;
   }
-  .ring { position: absolute; border-radius: 50%; }
+  .ring { position: absolute; border-radius: 50%; pointer-events: none; }
   .ring-1 {
     width: 135px; height: 135px;
     border: 3px solid transparent;
@@ -89,7 +90,7 @@
     animation: spin-rev 4s linear infinite;
   }
   .core-center {
-    width: 60px; height: 60px;
+    width: 65px; height: 65px;
     background: radial-gradient(circle, #ffffff, var(--theme-color), #001f3f);
     border-radius: 50%;
     box-shadow: 0 0 25px var(--theme-color);
@@ -98,7 +99,7 @@
     align-items: center;
     color: #050a14;
     font-weight: bold;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
   @keyframes spin { 100% { transform: rotate(360deg); } }
   @keyframes spin-rev { 100% { transform: rotate(-360deg); } }
@@ -106,7 +107,7 @@
   .chat-box {
     width: 100%;
     max-width: 500px;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--theme-glow);
     padding: 15px;
     border-radius: 10px;
@@ -132,6 +133,7 @@
     color: #fff;
     border-radius: 5px;
     outline: none;
+    font-size: 0.9rem;
   }
   .btn-jarvis {
     padding: 10px 15px;
@@ -145,39 +147,46 @@
   .section-label {
     font-size: 0.7rem;
     letter-spacing: 1px;
-    opacity: 0.8;
-    margin: 10px 0 6px;
+    opacity: 0.85;
+    margin: 12px 0 6px;
     text-transform: uppercase;
   }
   .quick-cmds {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 7px;
     justify-content: center;
   }
   .cmd-chip {
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: var(--theme-bg);
     border: 1px solid var(--theme-glow);
-    font-size: 0.75rem;
+    color: var(--theme-color);
+    font-size: 0.8rem;
     cursor: pointer;
     border-radius: 15px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .cmd-chip:active {
+    background: var(--theme-color);
+    color: #050a14;
   }
   .notes-area {
     width: 100%;
     max-width: 500px;
     text-align: left;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.5);
     border: 1px solid var(--theme-glow);
-    padding: 10px;
+    padding: 12px;
     border-radius: 8px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
-  .notes-area ul { list-style: none; margin-top: 5px; }
+  .notes-area ul { list-style: none; margin-top: 6px; }
   .notes-area li {
     display: flex;
     justify-content: space-between;
-    padding: 4px 0;
+    padding: 5px 0;
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   footer {
@@ -190,11 +199,11 @@
 </head>
 <body>
   <header>
-    <div class="logo" id="user-title">J.A.R.V.I.S.</div>
+    <div class="logo">J.A.R.V.I.S.</div>
     <div class="top-controls">
-      <div class="theme-dot" style="background:#00f3ff;" onclick="setTheme('#00f3ff', 'rgba(0,243,255,0.12)', 'rgba(0,243,255,0.5)')" title="Jarvis Blue"></div>
-      <div class="theme-dot" style="background:#ff2a2a;" onclick="setTheme('#ff2a2a', 'rgba(255,42,42,0.12)', 'rgba(255,42,42,0.5)')" title="Iron Man Red"></div>
-      <div class="theme-dot" style="background:#00ff66;" onclick="setTheme('#00ff66', 'rgba(0,255,102,0.12)', 'rgba(0,255,102,0.5)')" title="Matrix Green"></div>
+      <div class="theme-dot" style="background:#00f3ff;" onclick="setTheme('#00f3ff', 'rgba(0,243,255,0.12)', 'rgba(0,243,255,0.5)')"></div>
+      <div class="theme-dot" style="background:#ff2a2a;" onclick="setTheme('#ff2a2a', 'rgba(255,42,42,0.12)', 'rgba(255,42,42,0.5)')"></div>
+      <div class="theme-dot" style="background:#00ff66;" onclick="setTheme('#00ff66', 'rgba(0,255,102,0.12)', 'rgba(0,255,102,0.5)')"></div>
       <button class="api-btn" onclick="setupUser()">⚙️ SETUP</button>
     </div>
   </header>
@@ -209,45 +218,45 @@
     <div class="chat-box">
       <div id="jarvis-msg">System Online, Sir. Main aapki kya madad kar sakta hoon?</div>
       <div class="input-group">
-        <input type="text" id="user-input" placeholder="Sawal puchein, hisab karein, ya 'play song'..." onkeypress="if(event.key==='Enter') processCommand()">
+        <input type="text" id="user-input" placeholder="Likhein: 25*10, play song, ya sawal..." onkeypress="if(event.key==='Enter') processCommand()">
         <button class="btn-jarvis" onclick="processCommand()">SEND</button>
       </div>
       
-      <div class="section-label">Social Media & Apps</div>
+      <div class="section-label">Social Media & Apps (Direct Open)</div>
       <div class="quick-cmds">
-        <div class="cmd-chip" onclick="openSite('Instagram', 'https://instagram.com')">Instagram</div>
-        <div class="cmd-chip" onclick="openSite('WhatsApp', 'https://whatsapp.com')">WhatsApp</div>
-        <div class="cmd-chip" onclick="openSite('YouTube', 'https://youtube.com')">YouTube</div>
-        <div class="cmd-chip" onclick="openSite('Facebook', 'https://facebook.com')">Facebook</div>
-        <div class="cmd-chip" onclick="openSite('X Twitter', 'https://x.com')">X</div>
-        <div class="cmd-chip" onclick="openSite('Telegram', 'https://telegram.org')">Telegram</div>
-        <div class="cmd-chip" onclick="openSite('Snapchat', 'https://snapchat.com')">Snapchat</div>
-        <div class="cmd-chip" onclick="openSite('LinkedIn', 'https://linkedin.com')">LinkedIn</div>
+        <a class="cmd-chip" href="https://instagram.com" target="_blank" onclick="speak('Instagram khol raha hoon, Sir.')">Instagram</a>
+        <a class="cmd-chip" href="https://whatsapp.com" target="_blank" onclick="speak('WhatsApp khol raha hoon, Sir.')">WhatsApp</a>
+        <a class="cmd-chip" href="https://youtube.com" target="_blank" onclick="speak('YouTube khol raha hoon, Sir.')">YouTube</a>
+        <a class="cmd-chip" href="https://facebook.com" target="_blank" onclick="speak('Facebook khol raha hoon, Sir.')">Facebook</a>
+        <a class="cmd-chip" href="https://x.com" target="_blank" onclick="speak('X khol raha hoon, Sir.')">X</a>
+        <a class="cmd-chip" href="https://telegram.org" target="_blank" onclick="speak('Telegram khol raha hoon, Sir.')">Telegram</a>
+        <a class="cmd-chip" href="https://snapchat.com" target="_blank" onclick="speak('Snapchat khol raha hoon, Sir.')">Snapchat</a>
+        <a class="cmd-chip" href="https://linkedin.com" target="_blank" onclick="speak('LinkedIn khol raha hoon, Sir.')">LinkedIn</a>
       </div>
 
       <div class="section-label">Smart Commands</div>
       <div class="quick-cmds">
-        <div class="cmd-chip" onclick="runQuick('time')">⏰ Time</div>
-        <div class="cmd-chip" onclick="runQuick('weather')">🌦️ Mumbai Weather</div>
-        <div class="cmd-chip" onclick="runQuick('play arijit singh songs')">🎵 Play Song</div>
-        <div class="cmd-chip" onclick="runQuick('note: call home at 7pm')">📝 Add Note</div>
+        <button class="cmd-chip" onclick="runQuick('time')">⏰ Time</button>
+        <a class="cmd-chip" href="https://google.com" target="_blank" onclick="speak('Mausam ki jankari khol raha hoon.')">🌦️ Weather</a>
+        <button class="cmd-chip" onclick="runQuick('play arijit singh songs')">🎵 Play Song</button>
+        <button class="cmd-chip" onclick="runQuick('note: call home at 7pm')">📝 Add Note</button>
       </div>
     </div>
 
     <div class="notes-area">
-      <strong>📌 SAVED NOTES (Sir's Memory):</strong>
+      <strong>📌 SAVED NOTES:</strong>
       <ul id="notes-list"></ul>
     </div>
   </section>
 
   <footer>
-    <span id="battery-status">BATTERY: CHECKING...</span> | <span id="clock">TIME: 00:00:00</span>
+    <span id="battery-status">BATTERY: ONLINE</span> | <span id="clock">TIME: 00:00:00</span>
   </footer>
 
   <script>
     let userName = localStorage.getItem('jarvis_user') || 'Sir';
     let apiKey = localStorage.getItem('gemini_api_key') || '';
-    let notes = JSON.parse(localStorage.getItem('jarvis_notes')) || ['Welcome to J.A.R.V.I.S. System'];
+    let notes = JSON.parse(localStorage.getItem('jarvis_notes')) || ['Welcome to J.A.R.V.I.S.'];
 
     function init() {
       document.getElementById('jarvis-msg').innerText = `Welcome back, ${userName}. All systems operational.`;
@@ -261,17 +270,17 @@
     }
 
     function setupUser() {
-      const name = prompt("Apna naam likhein (jaise: Boss ya aapka naam):", userName);
-      if (name) {
-        userName = name;
-        localStorage.setItem('jarvis_user', name);
+      const name = prompt("Apna naam likhein:", userName);
+      if (name && name.trim() !== "") {
+        userName = name.trim();
+        localStorage.setItem('jarvis_user', userName);
       }
-      const key = prompt("Asli AI chat ke liye apni Free Gemini API Key dalein (ya khali chhod dein):", apiKey);
+      const key = prompt("Apni Gemini API Key paste karein (ya khali chhod dein):", apiKey);
       if (key !== null) {
         apiKey = key.trim();
         localStorage.setItem('gemini_api_key', apiKey);
       }
-      speak(`Settings updated, ${userName}.`);
+      speak(`Settings saved, ${userName}.`);
     }
 
     function speak(text) {
@@ -279,6 +288,7 @@
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const speech = new SpeechSynthesisUtterance(text);
+        speech.lang = 'hi-IN';
         window.speechSynthesis.speak(speech);
       }
     }
@@ -298,19 +308,4 @@
 
     function renderNotes() {
       const list = document.getElementById('notes-list');
-      list.innerHTML = notes.map((n, i) => `<li><span>• ${n}</span><span style="cursor:pointer;color:#ff4d4d;" onclick="delNote(${i})">✖</span></li>`).join('');
-    }
-
-    function delNote(index) {
-      notes.splice(index, 1);
-      localStorage.setItem('jarvis_notes', JSON.stringify(notes));
-      renderNotes();
-    }
-
-    function runQuick(cmd) {
-      document.getElementById('user-input').value = cmd;
-      processCommand();
-    }
-
-    function openSite(name, url) {
-     
+    
