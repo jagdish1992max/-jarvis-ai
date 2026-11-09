@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>J.D.B.U.T.I.Y.A. AI</title>
+<title>J.A.R.V.I.S. AI</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -40,8 +40,8 @@
   }
   .jarvis-core {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +50,7 @@
   }
   .ring { position: absolute; border-radius: 50%; }
   .ring-1 {
-    width: 170px; height: 170px;
+    width: 160px; height: 160px;
     border: 3px solid transparent;
     border-top: 3px solid #00f3ff;
     border-bottom: 3px solid #00f3ff;
@@ -58,12 +58,12 @@
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
   }
   .ring-2 {
-    width: 135px; height: 135px;
+    width: 125px; height: 125px;
     border: 3px dashed #00f3ff;
     animation: spin-rev 4s linear infinite;
   }
   .core-center {
-    width: 75px; height: 75px;
+    width: 70px; height: 70px;
     background: radial-gradient(circle, #ffffff, #00f3ff, #0051ff);
     border-radius: 50%;
     box-shadow: 0 0 30px #00f3ff;
@@ -79,7 +79,7 @@
 
   .chat-box {
     width: 100%;
-    max-width: 450px;
+    max-width: 480px;
     background: rgba(0, 243, 255, 0.05);
     border: 1px solid rgba(0, 243, 255, 0.3);
     padding: 15px;
@@ -95,6 +95,7 @@
   .input-group {
     display: flex;
     gap: 8px;
+    margin-bottom: 15px;
   }
   input {
     flex-grow: 1;
@@ -114,12 +115,18 @@
     cursor: pointer;
     border-radius: 4px;
   }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #5bc0de;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
   .quick-cmds {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    margin-top: 10px;
   }
   .cmd-chip {
     padding: 6px 12px;
@@ -128,6 +135,11 @@
     font-size: 0.8rem;
     cursor: pointer;
     border-radius: 20px;
+    transition: 0.2s;
+  }
+  .cmd-chip:active {
+    background: #00f3ff;
+    color: #050a14;
   }
   footer {
     text-align: center;
@@ -152,17 +164,24 @@
     </div>
 
     <div class="chat-box">
-      <div id="jarvis-msg">System Online, Sir. Niche likhein ya button dabayein.</div>
+      <div id="jarvis-msg">System Online, Sir. Kaunsa platform kholna hai?</div>
       <div class="input-group">
-        <input type="text" id="user-input" placeholder="Command likhein (jaise: open youtube)..." onkeypress="if(event.key==='Enter') processCommand()">
+        <input type="text" id="user-input" placeholder="Likhein: open instagram, whatsapp..." onkeypress="if(event.key==='Enter') processCommand()">
         <button class="btn-jarvis" onclick="processCommand()">SEND</button>
       </div>
       
+      <div class="section-label">Social Media & Quick Access</div>
       <div class="quick-cmds">
+        <div class="cmd-chip" onclick="runQuick('instagram')">Instagram</div>
+        <div class="cmd-chip" onclick="runQuick('whatsapp')">WhatsApp</div>
+        <div class="cmd-chip" onclick="runQuick('youtube')">YouTube</div>
+        <div class="cmd-chip" onclick="runQuick('facebook')">Facebook</div>
+        <div class="cmd-chip" onclick="runQuick('twitter')">X (Twitter)</div>
+        <div class="cmd-chip" onclick="runQuick('telegram')">Telegram</div>
+        <div class="cmd-chip" onclick="runQuick('snapchat')">Snapchat</div>
+        <div class="cmd-chip" onclick="runQuick('linkedin')">LinkedIn</div>
+        <div class="cmd-chip" onclick="runQuick('google')">Google</div>
         <div class="cmd-chip" onclick="runQuick('time')">Time Batao</div>
-        <div class="cmd-chip" onclick="runQuick('youtube')">Open YouTube</div>
-        <div class="cmd-chip" onclick="runQuick('google')">Open Google</div>
-        <div class="cmd-chip" onclick="runQuick('status')">System Status</div>
       </div>
     </div>
   </section>
@@ -189,7 +208,6 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Battery Check
     if ('getBattery' in navigator) {
       navigator.getBattery().then(battery => {
         const updateBat = () => {
@@ -205,6 +223,11 @@
       processCommand();
     }
 
+    function openSite(name, url) {
+      speak(name + " khol raha hoon, Sir.");
+      setTimeout(() => window.open(url, '_blank'), 800);
+    }
+
     function processCommand() {
       const input = document.getElementById('user-input');
       const cmd = input.value.toLowerCase().trim();
@@ -216,21 +239,32 @@
         speak("Hello Sir! Main aapki kya madad kar sakta hoon?");
       } else if (cmd.includes('time')) {
         speak("Abhi samay hua hai " + new Date().toLocaleTimeString());
+      } else if (cmd.includes('instagram') || cmd.includes('insta')) {
+        openSite("Instagram", "https://instagram.com");
+      } else if (cmd.includes('whatsapp')) {
+        openSite("WhatsApp", "https://whatsapp.com");
       } else if (cmd.includes('youtube')) {
-        speak("YouTube khol raha hoon, Sir.");
-        setTimeout(() => window.open('https://youtube.com', '_blank'), 1000);
+        openSite("YouTube", "https://youtube.com");
+      } else if (cmd.includes('facebook') || cmd.includes('fb')) {
+        openSite("Facebook", "https://facebook.com");
+      } else if (cmd.includes('twitter') || cmd.includes('x')) {
+        openSite("X Twitter", "https://x.com");
+      } else if (cmd.includes('telegram')) {
+        openSite("Telegram", "https://telegram.org");
+      } else if (cmd.includes('snapchat') || cmd.includes('snap')) {
+        openSite("Snapchat", "https://snapchat.com");
+      } else if (cmd.includes('linkedin')) {
+        openSite("LinkedIn", "https://linkedin.com");
       } else if (cmd.includes('google')) {
-        speak("Google khol raha hoon, Sir.");
-        setTimeout(() => window.open('https://google.com', '_blank'), 1000);
+        openSite("Google", "https://google.com");
       } else if (cmd.includes('status')) {
         speak("Saare systems normal hain. Internet connection active hai.");
       } else {
         speak("Google par search kar raha hoon: " + cmd);
-        setTimeout(() => window.open('https://google.com/search?q=' + encodeURIComponent(cmd), '_blank'), 1000);
+        setTimeout(() => window.open('https://google.com/search?q=' + encodeURIComponent(cmd), '_blank'), 800);
       }
     }
 
-    // Voice Recognition
     function startVoice() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
