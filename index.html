@@ -3,330 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050a14">
-<title>J.A.R.V.I.S. Ultimate AI</title>
+<title>J.A.R.V.I.S. AI</title>
 <style>
-  :root {
-    --theme-color: #00f3ff;
-    --theme-bg: rgba(0, 243, 255, 0.12);
-    --theme-glow: rgba(0, 243, 255, 0.5);
-  }
+  :root { --c: #00f3ff; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background-color: #050a14;
-    color: var(--theme-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-image: radial-gradient(circle at center, var(--theme-bg) 0%, #050a14 80%);
-    transition: 0.3s;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 18px;
-    border-bottom: 1px solid var(--theme-glow);
-    position: relative;
-    z-index: 10;
-  }
-  .logo {
-    font-size: 1.3rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px var(--theme-color);
-  }
-  .top-controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  .theme-dot {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid #fff;
-  }
-  .api-btn {
-    background: var(--theme-color);
-    color: #050a14;
-    border: none;
-    padding: 6px 12px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  /* On-Screen Settings Panel */
-  #setup-panel {
-    display: none;
-    background: #081224;
-    border: 2px solid var(--theme-color);
-    padding: 15px;
-    margin: 10px auto;
-    width: 92%;
-    max-width: 480px;
-    border-radius: 10px;
-    box-shadow: 0 0 25px var(--theme-glow);
-    text-align: left;
-  }
-  #setup-panel label {
-    display: block;
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-    color: #fff;
-  }
-  #setup-panel input {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-  .setup-actions {
-    display: flex;
-    gap: 10px;
-  }
-
-  .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 15px;
-    flex-grow: 1;
-  }
-  .jarvis-core {
-    position: relative;
-    width: 135px;
-    height: 135px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    cursor: pointer;
-  }
-  .ring { position: absolute; border-radius: 50%; pointer-events: none; }
-  .ring-1 {
-    width: 130px; height: 130px;
-    border: 3px solid transparent;
-    border-top: 3px solid var(--theme-color);
-    border-bottom: 3px solid var(--theme-color);
-    animation: spin 6s linear infinite;
-    box-shadow: 0 0 15px var(--theme-glow);
-  }
-  .ring-2 {
-    width: 100px; height: 100px;
-    border: 2px dashed var(--theme-color);
-    animation: spin-rev 4s linear infinite;
-  }
-  .core-center {
-    width: 62px; height: 62px;
-    background: radial-gradient(circle, #ffffff, var(--theme-color), #001f3f);
-    border-radius: 50%;
-    box-shadow: 0 0 25px var(--theme-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #050a14;
-    font-weight: bold;
-    font-size: 0.7rem;
-  }
-  @keyframes spin { 100% { transform: rotate(360deg); } }
-  @keyframes spin-rev { 100% { transform: rotate(-360deg); } }
-
-  .chat-box {
-    width: 100%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--theme-glow);
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-  }
-  #jarvis-msg {
-    font-size: 0.95rem;
-    color: #ffffff;
-    min-height: 45px;
-    margin-bottom: 12px;
-    line-height: 1.4;
-  }
-  .input-group {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  input {
-    flex-grow: 1;
-    padding: 10px;
-    background: #02050a;
-    border: 1px solid var(--theme-color);
-    color: #fff;
-    border-radius: 5px;
-    outline: none;
-    font-size: 0.9rem;
-  }
-  .btn-jarvis {
-    padding: 10px 15px;
-    background: var(--theme-color);
-    color: #050a14;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    opacity: 0.85;
-    margin: 12px 0 6px;
-    text-transform: uppercase;
-  }
-  .quick-cmds {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    justify-content: center;
-  }
-  .cmd-chip {
-    padding: 7px 12px;
-    background: var(--theme-bg);
-    border: 1px solid var(--theme-glow);
-    color: var(--theme-color);
-    font-size: 0.8rem;
-    cursor: pointer;
-    border-radius: 15px;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .cmd-chip:active {
-    background: var(--theme-color);
-    color: #050a14;
-  }
-  .notes-area {
-    width: 100%;
-    max-width: 500px;
-    text-align: left;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--theme-glow);
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-  }
-  .notes-area ul { list-style: none; margin-top: 6px; }
-  .notes-area li {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  footer {
-    text-align: center;
-    padding: 10px;
-    border-top: 1px solid var(--theme-glow);
-    font-size: 0.75rem;
-  }
+  body { background: #050a14; color: var(--c); font-family: sans-serif; padding: 15px; text-align: center; }
+  header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--c); margin-bottom: 15px; }
+  .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 2px; }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; }
+  
+  .box { background: rgba(255,255,255,0.05); border: 1px solid var(--c); border-radius: 10px; padding: 15px; max-width: 480px; margin: 0 auto 15px; }
+  #msg { color: #fff; font-size: 1rem; min-height: 40px; margin-bottom: 12px; }
+  
+  .row { display: flex; gap: 6px; margin-bottom: 10px; }
+  input { flex: 1; padding: 10px; background: #000; border: 1px solid var(--c); color: #fff; border-radius: 5px; font-size: 0.9rem; }
+  button, a.chip { padding: 10px 14px; background: var(--c); color: #000; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.85rem; }
+  
+  .grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
+  a.chip, button.chip { background: rgba(0,243,255,0.12); color: var(--c); border: 1px solid var(--c); border-radius: 20px; padding: 6px 12px; }
+  
+  details { text-align: left; max-width: 480px; margin: 0 auto 15px; background: #081224; border: 1px solid var(--c); border-radius: 8px; padding: 10px; }
+  summary { font-weight: bold; cursor: pointer; padding: 5px; }
+  .setup-body { margin-top: 10px; }
+  .setup-body input { width: 100%; margin-bottom: 8px; }
 </style>
 </head>
 <body>
+
   <header>
     <div class="logo">J.A.R.V.I.S.</div>
-    <div class="top-controls">
-      <div class="theme-dot" style="background:#00f3ff;" onclick="setTheme('#00f3ff', 'rgba(0,243,255,0.12)', 'rgba(0,243,255,0.5)')"></div>
-      <div class="theme-dot" style="background:#ff2a2a;" onclick="setTheme('#ff2a2a', 'rgba(255,42,42,0.12)', 'rgba(255,42,42,0.5)')"></div>
-      <div class="theme-dot" style="background:#00ff66;" onclick="setTheme('#00ff66', 'rgba(0,255,102,0.12)', 'rgba(0,255,102,0.5)')"></div>
-      <button type="button" class="api-btn" onclick="toggleSetup()">⚙️ SETUP</button>
+    <div class="dots">
+      <div class="dot" style="background:#00f3ff" onclick="document.documentElement.style.setProperty('--c','#00f3ff')"></div>
+      <div class="dot" style="background:#ff2a2a" onclick="document.documentElement.style.setProperty('--c','#ff2a2a')"></div>
+      <div class="dot" style="background:#00ff66" onclick="document.documentElement.style.setProperty('--c','#00ff66')"></div>
     </div>
   </header>
 
-  <!-- Inline Setup Panel (Works in All Browsers) -->
-  <div id="setup-panel">
-    <label>Aapka Naam (User Name):</label>
-    <input type="text" id="input-username" placeholder="Jaise: Boss ya aapka naam">
+  <!-- Direct Open Setup Box (No Button Bug) -->
+  <details open>
+    <summary>⚙️ SETTINGS (Naam & API Key Yahan Dalein)</summary>
+    <div class="setup-body">
+      <input type="text" id="uname" placeholder="Apna naam likhein (jaise: Jagdish)">
+      <input type="text" id="ukey" placeholder="Gemini API Key paste karein (AIzaSy...)">
+      <button onclick="saveData()" style="width:100%">SAVE SETTINGS</button>
+    </div>
+  </details>
+
+  <div class="box">
+    <div id="msg">System Ready, Sir. Niche command likhein ya button dabayein.</div>
     
-    <label>Gemini API Key (Free AI Chat ke liye):</label>
-    <input type="text" id="input-apikey" placeholder="AIzaSy... yahan paste karein">
-    
-    <div class="setup-actions">
-      <button type="button" class="btn-jarvis" onclick="saveSetup()">SAVE SETTINGS</button>
-      <button type="button" class="cmd-chip" onclick="toggleSetup()">CLOSE</button>
+    <div class="row">
+      <input type="text" id="cmd" placeholder="Sawal puchein, 25*10, ya 'play song'...">
+      <button onclick="runCmd()">SEND</button>
+    </div>
+
+    <div class="grid">
+      <button class="chip" onclick="startMic()">🎤 BOL KAR PUCHEIN</button>
+      <button class="chip" onclick="quick('time')">⏰ TIME</button>
+      <button class="chip" onclick="quick('play arijit singh songs')">🎵 PLAY SONG</button>
     </div>
   </div>
 
-  <section class="hero">
-    <div class="jarvis-core" onclick="startVoice()">
-      <div class="ring ring-1"></div>
-      <div class="ring ring-2"></div>
-      <div class="core-center">TAP MIC</div>
+  <div class="box">
+    <div style="font-size:0.75rem; margin-bottom:8px;">DIRECT APPS & SOCIAL MEDIA</div>
+    <div class="grid">
+      <a class="chip" href="https://instagram.com" target="_blank">Instagram</a>
+      <a class="chip" href="https://whatsapp.com" target="_blank">WhatsApp</a>
+      <a class="chip" href="https://youtube.com" target="_blank">YouTube</a>
+      <a class="chip" href="https://facebook.com" target="_blank">Facebook</a>
+      <a class="chip" href="https://x.com" target="_blank">X</a>
+      <a class="chip" href="https://telegram.org" target="_blank">Telegram</a>
+      <a class="chip" href="https://snapchat.com" target="_blank">Snapchat</a>
+      <a class="chip" href="https://linkedin.com" target="_blank">LinkedIn</a>
     </div>
-
-    <div class="chat-box">
-      <div id="jarvis-msg">System Online, Sir. Main aapki kya madad kar sakta hoon?</div>
-      <div class="input-group">
-        <input type="text" id="user-input" placeholder="Likhein: 25*10, play song, ya sawal..." onkeypress="if(event.key==='Enter') processCommand()">
-        <button type="button" class="btn-jarvis" onclick="processCommand()">SEND</button>
-      </div>
-      
-      <div class="section-label">Social Media & Apps</div>
-      <div class="quick-cmds">
-        <a class="cmd-chip" href="https://instagram.com" target="_blank">Instagram</a>
-        <a class="cmd-chip" href="https://whatsapp.com" target="_blank">WhatsApp</a>
-        <a class="cmd-chip" href="https://youtube.com" target="_blank">YouTube</a>
-        <a class="cmd-chip" href="https://facebook.com" target="_blank">Facebook</a>
-        <a class="cmd-chip" href="https://x.com" target="_blank">X</a>
-        <a class="cmd-chip" href="https://telegram.org" target="_blank">Telegram</a>
-        <a class="cmd-chip" href="https://snapchat.com" target="_blank">Snapchat</a>
-        <a class="cmd-chip" href="https://linkedin.com" target="_blank">LinkedIn</a>
-      </div>
-
-      <div class="section-label">Smart Commands</div>
-      <div class="quick-cmds">
-        <button type="button" class="cmd-chip" onclick="runQuick('time')">⏰ Time</button>
-        <a class="cmd-chip" href="https://google.com" target="_blank">🌦️ Weather</a>
-        <button type="button" class="cmd-chip" onclick="runQuick('play arijit singh songs')">🎵 Play Song</button>
-        <button type="button" class="cmd-chip" onclick="runQuick('note: call home at 7pm')">📝 Add Note</button>
-      </div>
-    </div>
-
-    <div class="notes-area">
-      <strong>📌 SAVED NOTES:</strong>
-      <ul id="notes-list"></ul>
-    </div>
-  </section>
-
-  <footer>
-    <span id="battery-status">BATTERY: ONLINE</span> | <span id="clock">TIME: 00:00:00</span>
-  </footer>
+  </div>
 
   <script>
-    let userName = localStorage.getItem('jarvis_user') || 'Sir';
-    let apiKey = localStorage.getItem('gemini_api_key') || '';
-    let notes = JSON.parse(localStorage.getItem('jarvis_notes')) || ['Welcome to J.A.R.V.I.S.'];
+    document.getElementById('uname').value = localStorage.getItem('j_name') || '';
+    document.getElementById('ukey').value = localStorage.getItem('j_key') || '';
 
-    function init() {
-      document.getElementById('jarvis-msg').innerText = `Welcome back, ${userName}. All systems operational.`;
-      document.getElementById('input-username').value = userName;
-      document.getElementById('input-apikey').value = apiKey;
-      renderNotes();
-    }
-
-    function setTheme(color, bg, glow) {
-      document.documentElement.style.setProperty('--theme-color', color);
-      document.documentElement.style.setProperty('--theme-bg', bg);
-      document.documentElement.style.setProperty('--theme-glow', glow);
-    }
-
-    function toggleSetup() {
-      const panel = document.getElementById('setup-panel');
-      if (panel.style.display === 'block') {
-        panel.style.display = 'none';
-      } else {
-        panel.style.display = 'block';
+    function say(t) {
+      document.getElementById('msg').innerText = t;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        let s = new SpeechSynthesisUtterance(t);
+        s.lang = 'hi-IN';
+        window.speechSynthesis.speak(s);
       }
     }
 
-    function saveSetup() {
-      const nameVal = document.getElementById('input-username').value.trim();
-      const keyVal = document.getElementById('input-apikey').value.trim();
-      if (nameVal) {
-    
+    function saveData() {
+      let n = document.getElementById('uname').value.trim() || 'Sir';
+      let k = document.getElementById('ukey').value.trim();
+      localStorage.setItem('j_name', n);
+      localStorage.setItem('j_key', k);
+      say('Settings save ho gayi hain, ' + n + '!');
+    }
+
+    function quick(c) {
+      document.getElementById('cmd').value = c;
+      runCmd();
+    }
+
+    async function runCmd() {
+      let input = document.getElementById('cmd');
+      let raw = input.value.trim();
+      let c = raw.toLowerCase();
+      let name = localStorage.getItem('j_name') || 'Sir';
+      let key = localStorage.getItem('j_key') || '';
+      input.value = '';
+      if (!c) return;
+
+      if (c === 'time') {
+        say('Abhi time hua hai ' + new Date().toLocaleTimeString());
+      } else if (c.startsWith('play ')) {
+        let song = raw.slice(5);
+        say('YouTube par ' + song + ' khol raha hoon.');
+        window.location.href = 'https://youtube.com/results?search_query=' + encodeURIComponent(song);
+      } else if (/^[0-9+\-*/().\s]+$/.test(c)) {
+        try { say('Jawab hai: ' + eval(c)); } catch(e) { say('Galat hisab hai.'); }
+      } else if (key) {
+        document.getElementById('msg').innerText = 'Soch raha hoon...';
+        try {
+          let r = await fetch('https://googleapis.com' + key, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: 'Short Hinglish reply to ' + name + ': ' + raw }] }] })
+          });
+          let d = await r.json();
+          say(d.candidates[0].content.parts[0].text.replace(/\*/g, ''));
+        } catch(e) {
+          say('API Key galat hai ya network error hai.');
+        }
+      } else {
+        say('Google par search kar raha hoon: ' + raw);
+        window.location.href = 'https://google.com' + encodeURIComponent(raw);
+      }
+    }
+
+    function startMic() {
+      let SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) { say('Is browser mein mic nahi chalega, type karein.'); return; }
+      let rec = new SR();
+      rec.lang = 'en-IN';
+      document.getElementById('msg').innerText = 'Listening... Boliye...';
+      rec.start();
+      rec.onresult = function(e) {
+        document.getElementById('cmd').value = e.results[0][0].transcript;
+        runCmd();
+      };
+    }
+  </script>
+</body>
+</html>
